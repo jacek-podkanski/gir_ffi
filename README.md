@@ -1,5 +1,11 @@
 # GirFFI
 
+For debian-like systems, try the following for Gtk+ 3:
+
+    apt-get install libgirepository1.0-dev gobject-introspection gir1.2-gtk-3.0
+
+## original author
+
 by Matijs van Zuijlen
 
 ## Description
