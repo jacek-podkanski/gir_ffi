@@ -1,14 +1,15 @@
 # frozen_string_literal: true
 
-require 'ffi'
-require 'ffi/bit_masks'
+require "ffi"
+require "ffi/bit_masks"
 
 module GObjectIntrospection
   # Module for attaching functions from the girepository library
   module Lib
     extend FFI::Library
     extend FFI::BitMasks
-    ffi_lib 'girepository-1.0'
+    ffi_lib "libgirepository-1.0.so.1"
+    #'girepository-1.0'
 
     # IRepository
     enum :IRepositoryLoadFlags, [:LAZY, (1 << 0)]
@@ -48,7 +49,7 @@ module GObjectIntrospection
       :field,
       :arg,
       :type,
-      :unresolved
+      :unresolved,
     ]
 
     attach_function :g_base_info_ref, [:pointer], :void
@@ -63,12 +64,12 @@ module GObjectIntrospection
 
     # IFunctionInfo
     bit_mask :IFunctionInfoFlags,
-             is_method:      (1 << 0),
+             is_method: (1 << 0),
              is_constructor: (1 << 1),
-             is_getter:      (1 << 2),
-             is_setter:      (1 << 3),
-             wraps_vfunc:    (1 << 4),
-             throws:         (1 << 5)
+             is_getter: (1 << 2),
+             is_setter: (1 << 3),
+             wraps_vfunc: (1 << 4),
+             throws: (1 << 5)
 
     attach_function :g_function_info_get_symbol, [:pointer], :string
     attach_function :g_function_info_get_flags, [:pointer], :IFunctionInfoFlags
@@ -77,7 +78,7 @@ module GObjectIntrospection
     enum :ITransfer, [
       :nothing,
       :container,
-      :everything
+      :everything,
     ]
 
     attach_function :g_callable_info_get_return_type, [:pointer], :pointer
@@ -94,14 +95,14 @@ module GObjectIntrospection
     enum :IDirection, [
       :in,
       :out,
-      :inout
+      :inout,
     ]
 
     enum :IScopeType, [
       :invalid,
       :call,
       :async,
-      :notified
+      :notified,
     ]
 
     attach_function :g_arg_info_get_direction, [:pointer], :IDirection
@@ -139,7 +140,7 @@ module GObjectIntrospection
       :gslist,
       :ghash,
       :error,
-      :gunichar
+      :gunichar,
     ]
 
     attach_function :g_type_tag_to_string, [:ITypeTag], :string
@@ -149,7 +150,7 @@ module GObjectIntrospection
       :c,
       :array,
       :ptr_array,
-      :byte_array
+      :byte_array,
     ]
 
     attach_function :g_type_info_is_pointer, [:pointer], :bool
@@ -231,10 +232,10 @@ module GObjectIntrospection
 
     # IVFuncInfo
     bit_mask :IVFuncInfoFlags,
-             must_chain_up:     (1 << 0),
-             must_override:     (1 << 1),
+             must_chain_up: (1 << 0),
+             must_override: (1 << 1),
              must_not_override: (1 << 2),
-             throws:            (1 << 3)
+             throws: (1 << 3)
 
     attach_function :g_vfunc_info_get_flags, [:pointer], :IVFuncInfoFlags
     attach_function :g_vfunc_info_get_invoker, [:pointer], :pointer
@@ -294,9 +295,9 @@ module GObjectIntrospection
 
     # NOTE: This type has more values, but these are the ones used
     bit_mask :ParamFlags,
-             readable:       (1 << 0),
-             writable:       (1 << 1),
-             construct:      (1 << 2),
+             readable: (1 << 0),
+             writable: (1 << 1),
+             construct: (1 << 2),
              construct_only: (1 << 3)
 
     attach_function :g_property_info_get_flags, [:pointer], :ParamFlags
